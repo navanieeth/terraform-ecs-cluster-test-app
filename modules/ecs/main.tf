@@ -35,7 +35,6 @@ resource "aws_security_group_rule" "outbound_internet_access" {
   security_group_id = aws_security_group.instance.id
 }
 
-# Default disk size for Docker is 22 gig, see http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html
 resource "aws_launch_configuration" "launch" {
   name_prefix          = "${var.environment}_${var.cluster}_${var.instance_group}_"
   image_id             = var.aws_ami != "" ? var.aws_ami : data.aws_ami.latest_ecs_ami.image_id
@@ -45,15 +44,11 @@ resource "aws_launch_configuration" "launch" {
   iam_instance_profile = var.iam_instance_profile_id
   key_name             = var.key_name
 
-  # aws_launch_configuration can not be modified.
-  # Therefore we use create_before_destroy so that a new modified aws_launch_configuration can be created 
-  # before the old one gets destroyed. That's why we use name_prefix instead of name.
   lifecycle {
     create_before_destroy = true
   }
 }
 
-# Instances are scaled across availability zones http://docs.aws.amazon.com/autoscaling/latest/userguide/auto-scaling-benefits.html 
 resource "aws_autoscaling_group" "asg" {
   name                 = "${var.environment}_${var.cluster}_${var.instance_group}"
   max_size             = var.max_size
@@ -88,13 +83,6 @@ resource "aws_autoscaling_group" "asg" {
     propagate_at_launch = "true"
   }
 
-  # EC2 instances require internet connectivity to boot. Thus EC2 instances must not start before NAT is available.
-  # For info why see description in the network module.
-  tag {
-    key                 = "DependsId"
-    value               = var.depends_id
-    propagate_at_launch = "false"
-  }
 }
 
 data "template_file" "user_data" {
