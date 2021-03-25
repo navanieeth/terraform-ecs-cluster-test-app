@@ -1,4 +1,4 @@
-# test-app-ecs-cluster-tf
+# Terraform-ECS-Cluster-test-app-ec2
 Terraform scripts to create ECS cluster application using EC2
 
 Key Features:
