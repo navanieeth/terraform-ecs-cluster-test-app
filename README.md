@@ -13,6 +13,8 @@ The requirement is to create an application for internal use within the organiza
 
 ALB listeners will allow only https requests and it has a redirect rule for HTTP to HTTPS.
 
+Added health check for target group as '/healthcheck'
+
 ALB SG can be whitelisted only with internal organization CIDR range to make it safe.
 
 Implemented auto scaling policy to upscale and downscale the capacity based on CPU and MEM metrics. 
@@ -30,3 +32,13 @@ Brefibe details about each module:
 
 4. dynamo-db - It will create a simple table with a LockID field as the primary key to lock the terraform state during execution.
 
+
+Deployment process:
+===================
+Build/Test --> Build Image --> Push to ECR --> Deploy ECS 
+To build and push the image to ECR, we can use the jenkins pipeline - https://github.com/navanieeth/docker-build-jenkins-pipeline-maven-test-app
+
+To deploy the app - we have to perform two steps, 
+1. update the task definition with the latest image
+2. Update the service. 
+This can be added as last stage in Jenkins pipeline.
