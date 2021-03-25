@@ -39,8 +39,8 @@ Build/Test --> Build Image --> Push to ECR --> Deploy ECS 
 To build and push the image to ECR, we can use the jenkins pipeline - https://github.com/navanieeth/docker-build-jenkins-pipeline-maven-test-app
 
 To deploy the app - we have to perform two steps, 
-1. update the task definition with the latest image
-2. Update the service. 
+1. update the task definition with the latest image
+2. Update the service. 
 This can be added as last stage in Jenkins pipeline as below,
 
 stage('Deploy in ECS') {
@@ -54,5 +54,6 @@ stage('Deploy in ECS') {
       }
     }
   }
-  
-  Note : Already we have set the deployment minimum and maxmum health. So no worries about donwtime. 
+}
+
+Note : Already we have set the deployment minimum and maxmum health. So no worries about donwtime. 
