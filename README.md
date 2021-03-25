@@ -21,14 +21,18 @@ Implemented auto scaling policy to upscale and downscale the capacity based on C
 
 Specified the deployment minimum and maximum percent as 50, 100. So that it will always maintain the 50% of containers during the deployment. 
 
+Assuming that you already have a user with required roles and policies to execute the terraform. 
+
 Brief details about each module:
 =================================
 
-1. VPC - It will create the resources like VPC, public and private subnets, NAT, IGW and route configs. 
+1. VPC/subnet/nat - It will create the resources like VPC, public and private subnets, NAT, IGW and route configs. 
 
 2. ECS - IAM roles for EC2, SGs and rules,  Launch configuration, Auto Scaling group, Autoscaling policy, ECS cluster, task definition, ecs service, CW log groups and metrics. 
 
 3. ALB - It will create a target group, internal ALB, alb listeners and rules. Attaching r53 record with alb. 
+
+4. Service - It will create ECS service with minimum and maximum health percentage and required roles to run.
 
 4. dynamo-db - It will create a simple table with a LockID field as the primary key to lock the terraform state during execution.
 
