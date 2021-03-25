@@ -176,13 +176,13 @@ resource "aws_autoscaling_policy" "ecs_scaling" {
   estimated_instance_warmup = "30"
 
   step_adjustment {
-    metric_interval_lower_bound = 5
+    metric_interval_lower_bound = 3
     metric_interval_upper_bound = 10
     scaling_adjustment          = 1
   }
 
   step_adjustment {
-    metric_interval_upper_bound = 5
+    metric_interval_upper_bound = 3
     scaling_adjustment          = -1
   }
 }
