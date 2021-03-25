@@ -12,3 +12,4 @@ variable "load_balancers" {}
 variable "private_subnet_cidrs" {
    type = list
 }
+variable "my_ecr_arn" {}
