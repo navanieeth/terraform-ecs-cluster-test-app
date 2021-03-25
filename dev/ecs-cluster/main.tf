@@ -3,7 +3,6 @@ module "ecs_instances" {
 
   environment             = var.environment
   cluster                 = var.cluster
-  instance_group          = var.instance_group
   private_subnet_ids      = module.network.private_subnet_ids
   aws_ami                 = var.ecs_aws_ami
   instance_type           = var.instance_type
@@ -14,7 +13,6 @@ module "ecs_instances" {
   iam_instance_profile_id = aws_iam_instance_profile.ecs.id
   key_name                = var.key_name
   load_balancers          = var.load_balancers
-  depends_id              = module.network.depends_id
   custom_userdata         = var.custom_userdata
   cloudwatch_prefix       = var.cloudwatch_prefix
 }
@@ -62,15 +60,14 @@ module "ecs_service_app" {
   source = "../../modules/service"
 
   name                 = "ecs-alb-single-svc"
-  alb_target_group_arn = "${module.alb.target_group_arn}"
-  cluster              = "${module.ecs_cluster.cluster_id}"
-  container_name       = "nginx"
-  container_port       = "80"
-  log_groups           = ["ecs-alb-single-svc-nginx"]
-  task_definition_arn  = "${aws_ecs_task_definition.app.arn}"
-
+  alb_target_group_arn = "${module.alb.app_alb_target_group}"
+  cluster              = "${aws_ecs_cluster.cluster.id}"
+  container_name       = var.container_name
+  container_port       = var.container_port
+  log_groups           = ["ecs-alb-single-svc-app"]
+  task_definition_arn  = "${aws_ecs_task_definition.test-app.arn}"
+  task_desired_count   = var.desired_count
   tags = {
-    Owner       = "user"
-    Environment = "me"
+    Environment = "var.environment"
   }
 }

@@ -1,5 +1,5 @@
 variable "alb_name" {
-  default     = "default"
+  default     = "test-app"
   description = "The name of the loadbalancer"
 }
 
@@ -7,7 +7,7 @@ variable "environment" {
   description = "The name of the environment"
 }
 
-variable "public_subnet_ids" {
+variable "private_subnet_ids" {
   type        = list
   description = "List of public subnet ids to place the loadbalancer in"
 }
@@ -22,7 +22,7 @@ variable "deregistration_delay" {
 }
 
 variable "health_check_path" {
-  default     = "/"
+  default     = "/healthcheck"
   description = "The default health check path"
 }
 

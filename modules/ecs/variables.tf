@@ -30,7 +30,7 @@ variable "instance_type" {
 }
 
 variable "max_size" {
-  default     = 1
+  default     = 5
   description = "Maximum size of the nodes in the cluster"
 }
 
@@ -39,9 +39,8 @@ variable "min_size" {
   description = "Minimum size of the nodes in the cluster"
 }
 
-#For more explenation see http://docs.aws.amazon.com/autoscaling/latest/userguide/WhatIsAutoScaling.html
 variable "desired_capacity" {
-  default     = 1
+  default     = 2
   description = "The desired capacity of the cluster"
 }
 
@@ -53,7 +52,10 @@ variable "private_subnet_ids" {
   type        = list
   description = "The list of private subnets to place the instances in"
 }
+varibale "internal_cidr" {
 
+  description = "Interanl organizantion cidr to connect with ec2 and alb"
+}
 variable "load_balancers" {
   type        = list
   default     = []
@@ -66,6 +68,7 @@ variable "depends_id" {
 
 variable "key_name" {
   description = "SSH key name to be used"
+  default = "test-app.key"
 }
 
 variable "custom_userdata" {

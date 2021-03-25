@@ -44,13 +44,13 @@ data "aws_iam_policy_document" "instance_policy" {
 }
 
 resource "aws_iam_policy" "instance_policy" {
-  name   = "${var.name}-ecs-instance"
+  name   = "${var.environment}-ecs-instance"
   path   = "/"
   policy = "${data.aws_iam_policy_document.instance_policy.json}"
 }
 
 resource "aws_iam_role" "instance" {
-  name = "${var.name}-instance-role"
+  name = "${var.environment}-instance-role"
 
   assume_role_policy = <<EOF
 {
@@ -80,7 +80,7 @@ resource "aws_iam_role_policy_attachment" "instance_policy" {
 }
 
 resource "aws_iam_instance_profile" "instance" {
-  name = "${var.name}-instance-profile"
+  name = "${var.environment}-instance-profile"
   role = "${aws_iam_role.instance.name}"
 }
 
@@ -96,12 +96,28 @@ resource "aws_security_group" "instance" {
   }
 }
 
+resource "aws_security_group_rule" "inbound_access" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.instance.id
+
+resource "aws_security_group_rule" "inbound_access" {
+  type              = "ingress"
+  from_port         = 8080
+  to_port           = 8080
+  protocol          = "tcp"
+  cidr_blocks       = var.internal_cidr
+  security_group_id = aws_security_group.instance.id
+
 resource "aws_security_group_rule" "outbound_access" {
   type              = "egress"
   from_port         = 0
   to_port           = 65535
   protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]
+  cidr_blocks       = var.internal_cidr
   security_group_id = aws_security_group.instance.id
 }
 
@@ -140,19 +156,6 @@ resource "aws_autoscaling_group" "asg" {
     value               = var.environment
     propagate_at_launch = "true"
   }
-
-  tag {
-    key                 = "Cluster"
-    value               = var.cluster
-    propagate_at_launch = "true"
-  }
-
-  tag {
-    key                 = "InstanceGroup"
-    value               = var.instance_group
-    propagate_at_launch = "true"
-  }
-
 }
 
 data "template_file" "user_data" {

@@ -35,9 +35,9 @@ resource "aws_cloudwatch_log_group" "app-svc" {
 
 resource "aws_ecs_service" "app-svc" {
   name            = "${var.name}"
-  cluster         = "${aws_ecs_cluster.cluster.id}"
-  task_definition = "${aws_ecs_task_definition.test-app.arn}"
-  desired_count   = "${var.desired_count}"
+  cluster         = "${var.cluster}"
+  task_definition = "${var.task_definition_arn}"
+  desired_count   = "${var.task_desired_count}"
   iam_role        = "${aws_iam_role.app-svc.arn}"
 
   deployment_maximum_percent         = "${var.deployment_maximum_percent}"
