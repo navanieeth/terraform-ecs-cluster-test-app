@@ -110,3 +110,25 @@ resource "aws_security_group_rule" "outbound_internet_access" {
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.alb.id
 }
+
+ata "terraform_remote_state" "hostedzones" {
+  backend = "s3"
+
+  config = {
+    bucket = "terraform-714553166291-eu-west-1-management"
+    key    = "hostedzones/hostedzones.tfstate"
+    region = "eu-west-1"
+  }
+}
+
+resource "aws_route53_record" "app_alb_r53_record" {
+  zone_id = data.terraform_remote_state.hostedzones.outputs.app_zone_id_0
+  name    = "app-alb"
+  type    = "A"
+
+  alias {
+    name                   = aws_lb.alb.dns_name
+    zone_id                = aws_lb.alb.zone_id
+    evaluate_target_health = true
+  }
+}
