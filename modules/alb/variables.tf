@@ -1,5 +1,5 @@
 variable "alb_name" {
-  default     = "test-app"
+  default     = "app"
   description = "The name of the loadbalancer"
 }
 

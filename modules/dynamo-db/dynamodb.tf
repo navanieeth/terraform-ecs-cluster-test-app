@@ -1,4 +1,4 @@
-resource "aws_dynamodb_table" "dev-nonprod-dynamodb" {
+resource "aws_dynamodb_table" "tf-dynamodb" {
   name           = "terraform-state-lock-dynamo"
   read_capacity  = 20
   write_capacity = 20

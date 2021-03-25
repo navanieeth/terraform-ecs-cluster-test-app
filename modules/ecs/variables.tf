@@ -53,7 +53,7 @@ variable "private_subnet_ids" {
   description = "The list of private subnets to place the instances in"
 }
 varibale "internal_cidr" {
-
+  default = "10.20.30.0/18"
   description = "Interanl organizantion cidr to connect with ec2 and alb"
 }
 variable "load_balancers" {
