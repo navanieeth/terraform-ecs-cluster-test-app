@@ -36,6 +36,20 @@ Brief details about each module:
 
 4. dynamo-db - It will create a simple table with a LockID field as the primary key to lock the terraform state during execution.
 
+Execution: 
+==========
+To create devevelopement environment:
+1. clone the git repo
+2. cd dev
+3. aws configure #To configure your access and secret keys
+4. terraform init
+5. terraform plan
+6. terrraform apply 
+
+To create production environment:
+1. clone the git repo
+2. cd prod
+3. repeat all the above steps from 3 to 6
 
 Deployment process:
 ===================
