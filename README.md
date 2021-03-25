@@ -21,7 +21,7 @@ Implemented auto scaling policy to upscale and downscale the capacity based on C
 
 Specified the deployment minimum and maximum percent as 50, 100. So that it will always maintain the 50% of containers during the deployment. 
 
-Brefibe details about each module:
+Brief details about each module:
 =================================
 
 1. VPC - It will create the resources like VPC, public and private subnets, NAT, IGW and route configs. 
