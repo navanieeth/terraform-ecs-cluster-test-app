@@ -26,7 +26,7 @@ resource "aws_alb" "alb" {
   }
 }
 
-resource "aws_alb_listener" "front_end" {
+resource "aws_alb_listener" "front_end443" {
   load_balancer_arn = aws_alb.alb.id
   port              = "443"
   protocol          = "HTTPS"
@@ -34,31 +34,17 @@ resource "aws_alb_listener" "front_end" {
   certificate_arn   = "arn:aws:iam::0000:server-certificate/test-cert"
 
   default_action {
-    target_group_arn = aws_alb_target_group.default.id
+    target_group_arn = aws_alb_target_group.front_end.id
     type             = "forward"
   }
 }
 
-resource "aws_lb_listener_rule" "front_end" {
-  listener_arn = aws_lb_listener.front_end.arn
-  priority     = 100
+resource "aws_lb_listener" "front_end80" {
+  load_balancer_arn = "${aws_lb.alb.arn}"
+  port              = "80"
+  protocol          = "HTTP"
 
-  action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.default.arn
-  }
-
-  condition {
-    host_header {
-      values = ["example*.*"]
-    }
-  }
-}
-
-resource "aws_lb_listener_rule" "redirect_http_to_https" {
-  listener_arn = aws_lb_listener.front_end.arn
-    priority     = 99
-  action {
+  default_action {
     type = "redirect"
 
     redirect {
@@ -66,6 +52,16 @@ resource "aws_lb_listener_rule" "redirect_http_to_https" {
       protocol    = "HTTPS"
       status_code = "HTTP_301"
     }
+  }
+}
+
+resource "aws_lb_listener_rule" "front_end443" {
+  listener_arn = aws_lb_listener.front_end443.arn
+  priority     = 100
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.front_end.arn
   }
 
   condition {
@@ -111,7 +107,7 @@ resource "aws_security_group_rule" "outbound_internet_access" {
   security_group_id = aws_security_group.alb.id
 }
 
-ata "terraform_remote_state" "hostedzones" {
+data "terraform_remote_state" "hostedzones" {
   backend = "s3"
 
   config = {
