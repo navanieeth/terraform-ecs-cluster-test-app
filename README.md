@@ -3,9 +3,9 @@ Terraform scripts to create ECS cluster application using EC2
 
 Key Features:
 =============
-This script can be used to create multiple environments like dev, test, acc and prod with minimal changes. It has been developed in such a way. 
+This script can be used to create multiple environments like dev, test, acc and prod with minimal changes. It has been developed in such a way using modules. 
 
-Used S3 as a backend to store the state file. So that it will be maintained in the central repository to make use of other team members. Implemented dynamo db lock to prevent the parallel execution. 
+Used S3 as a backend to store the state files. So that it will be maintained in the central repository to make use of other team members. Implemented dynamo db lock to prevent the parallel execution. 
 
 Maintaining two stacks. one to create VPC and subnets. Another one to create a whole ECS cluster till route 53 record attachment. So nothing to worry about the VPC and subnets while destroying and creating the ECS clusters. It will be simple and easy. 
 
