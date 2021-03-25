@@ -43,6 +43,6 @@ To deploy the app - we have to perform two steps, 
 2. Update the service. 
 This can be added as last stage in Jenkins pipeline as,
 
-Refer the ecs-deploy stage - 
+Refer the ecs-deploy stage - https://github.com/navanieeth/terraform-ecs-cluster-test-app/blob/main/deploy/Jenkinsfile.ecs-deploy
 
 Note : Already we have set the deployment minimum and maxmum health. So no worries about donwtime. 
