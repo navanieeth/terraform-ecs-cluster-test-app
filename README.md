@@ -40,16 +40,23 @@ Execution:
 ==========
 To create devevelopement environment:
 1. clone the git repo
-2. cd dev
+2. cd dev/dynamo-db  #To create dynamo db for the state file lock
 3. aws configure #To configure your access and secret keys
 4. terraform init
 5. terraform plan
 6. terrraform apply 
+7. cd dev/vpc
+8. Repeat the steps 4,5 and 6 to create VPC, subnet and otehr base config
+9. cd dev/ecs-cluster
+10. Repeat the steps 4,5 and 6 to create to create complete ECS cluster
+
+Note: To create dev2, Just we have to duplicate the dev asset and have to run only ecs-cluster as already we have creted dynamo-db and VPC configs. That is why i have creared ecs-cluster as seperate a stack. 
+
 
 To create production environment:
 1. clone the git repo
-2. cd prod
-3. repeat all the above steps from 3 to 6
+2. cd prod/dynamo-db
+3. repeat all the above steps from 3 to 10 inside prod dir. 
 
 Deployment process:
 ===================
