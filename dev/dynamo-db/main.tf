@@ -1,4 +1,4 @@
 module "dynamo-db" {
-  source = "../modules/dynamo-db"
+  source = "../../modules/dynamo-db"
 
 }
